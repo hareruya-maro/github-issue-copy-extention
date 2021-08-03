@@ -25,3 +25,4 @@ yarn-error.log*
 
 dist.crx
 dist.pem
+dist.zip
