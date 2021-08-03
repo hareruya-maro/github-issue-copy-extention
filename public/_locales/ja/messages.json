@@ -1,0 +1,11 @@
+{
+    "Name": {
+        "message": "GitHub Issueコピー拡張機能"
+    },
+    "Description": {
+        "message": "この拡張機能はGitHubのIssueをコピーして新規作成する操作をサポートします。\nコピーしたいIssueの画面上で右クリックし、「Issueをコピーする」をクリックすると、件名、本文、ラベル、担当者をコピーして新しいIssueを作成する画面を開きます。"
+    },
+    "MenuName": {
+        "message": "このIssueをコピーする"
+    }
+}

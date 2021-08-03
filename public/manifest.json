@@ -1,0 +1,39 @@
+{
+    "name": "__MSG_Name__",
+    "description": "__MSG_Description__",
+    "manifest_version": 2,
+    "default_locale": "en",
+    "version": "1.0.0",
+    "icons": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+    },
+    "browser_action": {
+        "default_icon": {
+            "16": "icon16.png",
+            "48": "icon48.png"
+        },
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": false
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://github.com/*/*/issues/*"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "permissions": [
+        "tabs",
+        "contextMenus"
+    ]
+}

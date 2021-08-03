@@ -1,0 +1,11 @@
+{
+    "Name": {
+        "message": "GitHub Issue Copy Extension"
+    },
+    "Description": {
+        "message": "This extension supports copying and creating new issues on GitHub. "
+    },
+    "MenuName": {
+        "message": "Copy this issue"
+    }
+}
