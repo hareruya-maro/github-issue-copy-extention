@@ -16,26 +16,26 @@ chrome.runtime.onMessage.addListener(function (
   labels = (request.labels as string[]).join(",");
 });
 
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-  // read changeInfo data and do something with it
-  // like send the new url to contentscripts.js
-  if (changeInfo.status === "complete") {
+chrome.tabs.onActivated.addListener((activeInfo) => {
+  chrome.tabs.get(activeInfo.tabId, (tab) => {
     const result = tab.url?.match(targetUrlRegex);
     if (result && result?.length > 0) {
       chrome.contextMenus.update("copyIssue", {
         enabled: true,
       });
-      chrome.tabs.sendMessage(tabId, {
-        message: "hello!",
-        url: tab.url,
-      });
+      chrome.tabs
+        .sendMessage(tab.id!, {
+          message: "hello!",
+          url: tab.url,
+        })
+        .catch((e) => console.error(e));
     } else {
       title = "";
       chrome.contextMenus.update("copyIssue", {
         enabled: false,
       });
     }
-  }
+  });
 });
 
 /**
@@ -69,15 +69,11 @@ chrome.runtime.onInstalled.addListener(function () {
  * 選択されたメニューが関数の引数に渡される。
  * 複数のメニューを登録した場合は、item.menuItemIdでクリックされたメニューが取得できる
  */
-chrome.contextMenus.onClicked.addListener(function () {
-  chrome.tabs.query({ active: true }, (tabs) => {
-    const result = tabs
-      .find((tab) => tab.url?.match(targetUrlRegex))
-      ?.url?.match(targetUrlRegex);
-    if (result && result?.length > 0) {
-      chrome.tabs.create({
-        url: `https://github.com/${result[1]}/${result[2]}/issues/new?assignees=${assignees}&title=${title}&body=${body}&labels=${labels}`,
-      });
-    }
-  });
+chrome.contextMenus.onClicked.addListener((_, tab) => {
+  const result = tab?.url?.match(targetUrlRegex);
+  if (result && result?.length > 0) {
+    chrome.tabs.create({
+      url: `https://github.com/${result[1]}/${result[2]}/issues/new?assignees=${assignees}&title=${title}&body=${body}&labels=${labels}`,
+    });
+  }
 });
